@@ -4,4 +4,10 @@
   <Project Path="Kt.Authentication/Kt.Authentication.csproj" Id="b5cc63ae-5ca8-4617-9d57-9da988c3047e" />
   <Project Path="Kt.Data.IntegrationChecks/Kt.Data.IntegrationChecks.csproj" />
   <Project Path="Kt.Data/Kt.Data.csproj" />
+  <Project Path="Kt.Kernel.Environment/Kt.Kernel.Environment.csproj" Id="ed0e4369-956a-411b-84bc-3eb6c0ce91a8" />
+  <Project Path="Kt.Kernel.FileSystem/Kt.Kernel.FileSystem.csproj" Id="dce92803-f67c-48b3-918a-097b1945c52a" />
+  <Project Path="Kt.Kernel.Log/Kt.Kernel.Log.csproj" Id="4e82c667-61ff-403a-8d95-2bacb2bd4078" />
+  <Project Path="Kt.Kernel.Network/Kt.Kernel.Network.csproj" Id="4881daf5-d5a2-4450-8d92-44fd10b88e01" />
+  <Project Path="Kt.Kernel/Kt.Kernel.csproj" Id="02d1b7b4-a727-4c87-9e65-8ed5fdfb1874" />
+  <Project Path="Kt.Models/Kt.Data.Models.csproj" Id="ff3a13c0-21b7-4229-9e40-697410a8417c" />
 </Solution>

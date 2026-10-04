@@ -8,7 +8,7 @@ public class Login {
     private static async Task<IResult> LoginAsync(KtLoginRequest request, HttpContext http, IKtIdentityBackend backend, IKtSessionStore sessions, CancellationToken cancellationToken) {
         var remoteIp = http.Connection.RemoteIpAddress?.ToString();
 
-        Console.WriteLine("Called LoginAsync with request: " + JsonSerializer.Serialize(request, KtAuthJsonContext.Default.KtLoginRequest) + ", remoteIp: " + remoteIp);
+        // Console.WriteLine("Called LoginAsync with request: " + JsonSerializer.Serialize(request, KtAuthJsonContext.Default.KtLoginRequest) + ", remoteIp: " + remoteIp);
 
         var identity = await backend.VerifyCredentialsAsync(request.Login, request.Password, request.Otp, remoteIp, cancellationToken);
         if (identity is null)

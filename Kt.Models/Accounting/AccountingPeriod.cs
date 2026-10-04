@@ -9,8 +9,7 @@ namespace Kt.Data.Models.Accounting;
 /// <summary>Maps one row of the acc_accounting_period table. Includes all 8 physical columns.</summary>
 /// <remarks>Explicit repository mapping is required; annotations do not execute SQL or enforce permissions.</remarks>
 [Table("acc_accounting_period")]
-public sealed record AccountingPeriod
-{
+public sealed record AccountingPeriod {
     /// <summary>Column: id; SQL: bigint unsigned; not null.</summary>
     [Column("id", TypeName = "bigint unsigned")]
     public required ulong Id { get; init; }

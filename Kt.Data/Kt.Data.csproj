@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -10,5 +10,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\Objects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kt.Models\Kt.Data.Models.csproj" />
   </ItemGroup>
 </Project>

@@ -17,6 +17,14 @@
   <ItemGroup>
     <ProjectReference Include="..\Kt.Api.Abstractions\Kt.Api.Abstractions.csproj" />
     <ProjectReference Include="..\Kt.Authentication\Kt.Authentication.csproj" />
+    <ProjectReference Include="..\Kt.Data.IntegrationChecks\Kt.Data.IntegrationChecks.csproj" />
+    <ProjectReference Include="..\Kt.Data\Kt.Data.csproj" />
+    <ProjectReference Include="..\Kt.Kernel.Environment\Kt.Kernel.Environment.csproj" />
+    <ProjectReference Include="..\Kt.Kernel.FileSystem\Kt.Kernel.FileSystem.csproj" />
+    <ProjectReference Include="..\Kt.Kernel.Log\Kt.Kernel.Log.csproj" />
+    <ProjectReference Include="..\Kt.Kernel.Network\Kt.Kernel.Network.csproj" />
+    <ProjectReference Include="..\Kt.Kernel\Kt.Kernel.csproj" />
+    <ProjectReference Include="..\Kt.Models\Kt.Data.Models.csproj" />
   </ItemGroup>
   
 </Project>
