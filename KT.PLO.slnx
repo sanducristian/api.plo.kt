@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Kt.Api.Abstractions/Kt.Api.Abstractions.csproj" Id="3e55bfec-0639-4291-94ff-1a4b6c0edce4" />
+  <Project Path="Kt.API/Kt.Api.csproj" />
+  <Project Path="Kt.Authentication/Kt.Authentication.csproj" Id="b5cc63ae-5ca8-4617-9d57-9da988c3047e" />
+  <Project Path="Kt.Data.IntegrationChecks/Kt.Data.IntegrationChecks.csproj" />
+  <Project Path="Kt.Data/Kt.Data.csproj" />
+</Solution>

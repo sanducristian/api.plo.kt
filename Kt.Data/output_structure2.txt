@@ -1,0 +1,365 @@
+Folder PATH listing for volume Data
+Volume serial number is 08E4-072B
+D:\SOFTWARE-LINUX\KT.PLO\KT.DATA
+|   Kt.Data.csproj
+|   KtDb.cs
+|   KtDbSession.cs
+|   output_structure.txt
+|   output_structure2.txt
+|   README-v01.md
+|   README.md
+|   
++---Authorization
+|   \---Objects
+|           IKtObjectAccessPolicy.cs
+|           
++---bin
+|   \---Debug
+|       +---net10.0
+|       |       Kt.Data.deps.json
+|       |       Kt.Data.dll
+|       |       Kt.Data.pdb
+|       |       
+|       \---net8.0
++---Commands
+|   +---Finance
+|   |       KtDraftLine.cs
+|   |       KtPurchaseDraft.cs
+|   |       
+|   \---Objects
+|           KtObjectDynamicAttributeValue.cs
+|           KtObjectDynamicBlobValue.cs
+|           KtObjectDynamicDateTimeValue.cs
+|           KtObjectDynamicDateValue.cs
+|           KtObjectDynamicDoubleValue.cs
+|           KtObjectDynamicIntegerValue.cs
+|           KtObjectDynamicLocalizedTextValue.cs
+|           KtObjectDynamicTextValue.cs
+|           KtObjectDynamicTimeValue.cs
+|           KtObjectDynamicValue.cs
+|           scr.ps1
+|           
++---Configuration
+|   \---Finance
+|           KtInvoicePermissions.cs
+|           
++---Context
+|   \---Finance
+|           KtInvoiceScope.cs
+|           
++---docs
+|       OBJECTS_AND_INVOICES.md
+|       SCHEMA_EXCERPTS.md
+|       
++---Exceptions
+|       finance.cs
+|       
++---Models
+|   +---Accounting
+|   |       AccountingPeriod.cs
+|   |       BankAccountMapping.cs
+|   |       CostCenter.cs
+|   |       CountryPolicy.cs
+|   |       GlAccount.cs
+|   |       Journal.cs
+|   |       JournalEntry.cs
+|   |       JournalEntryLine.cs
+|   |       PeriodCloseEvent.cs
+|   |       PostingRule.cs
+|   |       Project.cs
+|   |       TaxCode.cs
+|   |       TaxLedger.cs
+|   |       TaxPeriod.cs
+|   |       
+|   +---Audit
+|   |       AuditEvent.cs
+|   |       SystemEvent.cs
+|   |       
+|   +---Companies
+|   |       CompanyOnboardingCase.cs
+|   |       CompanyWorkspace.cs
+|   |       
+|   +---Compatibility
+|   |       CompanyAgency.cs
+|   |       ComponentClass.cs
+|   |       ComponentIn.cs
+|   |       ComponentInItem.cs
+|   |       ComponentOut.cs
+|   |       ComponentOutItem.cs
+|   |       ComponentSupplier.cs
+|   |       Conversion.cs
+|   |       UserAccess.cs
+|   |       UserGroup.cs
+|   |       
+|   +---Core
+|   |       BusinessPartner.cs
+|   |       CountryPack.cs
+|   |       FinancialInstitution.cs
+|   |       LegalEntity.cs
+|   |       LegalEntityCountryPack.cs
+|   |       Location.cs
+|   |       LocationType.cs
+|   |       Party.cs
+|   |       PartyBankAccount.cs
+|   |       PartyBankAccountEvent.cs
+|   |       PartyRegistration.cs
+|   |       PartyRegistrationVerification.cs
+|   |       
+|   +---Customs
+|   |       CostAllocation.cs
+|   |       Declaration.cs
+|   |       DeclarationDocument.cs
+|   |       DeclarationInvoice.cs
+|   |       DeclarationItem.cs
+|   |       DeclarationItemInvoiceLine.cs
+|   |       ItemTariffAssessment.cs
+|   |       Office.cs
+|   |       ProductClassification.cs
+|   |       TariffClassification.cs
+|   |       TariffMeasure.cs
+|   |       
+|   +---Devices
+|   |       DeviceChannel.cs
+|   |       DeviceChannelAssignment.cs
+|   |       DeviceChannelLatest.cs
+|   |       DeviceClaim.cs
+|   |       DeviceComponentInstallation.cs
+|   |       DeviceDataStream.cs
+|   |       DeviceDocument.cs
+|   |       DeviceIdentifier.cs
+|   |       DeviceLifecycleEvent.cs
+|   |       DeviceMeasurementDefinition.cs
+|   |       DeviceModel.cs
+|   |       DeviceOwnership.cs
+|   |       DeviceOwnershipTransfer.cs
+|   |       DeviceUnit.cs
+|   |       
+|   +---Finance
+|   |       BankReconciliationEvent.cs
+|   |       BankStatementImport.cs
+|   |       BankStatementLine.cs
+|   |       BankStatementLineInvoiceMatch.cs
+|   |       CountryPolicy.cs
+|   |       DocumentSequence.cs
+|   |       EinvoiceEvent.cs
+|   |       EinvoiceExchange.cs
+|   |       EinvoiceProfile.cs
+|   |       Invoice.cs
+|   |       InvoiceApprovalEvent.cs
+|   |       InvoiceBankDetail.cs
+|   |       InvoiceDocument.cs
+|   |       InvoiceImport.cs
+|   |       InvoiceLine.cs
+|   |       InvoiceLineAllocation.cs
+|   |       InvoiceLineMatch.cs
+|   |       InvoiceLinePurchaseOrderMatch.cs
+|   |       InvoiceLineReceiptMatch.cs
+|   |       InvoiceLineTax.cs
+|   |       InvoiceRelation.cs
+|   |       InvoiceStatusEvent.cs
+|   |       InvoiceTaxSummary.cs
+|   |       LegalEntityBankAccount.cs
+|   |       OpenItem.cs
+|   |       PaymentAllocation.cs
+|   |       PaymentTerm.cs
+|   |       Settlement.cs
+|   |       
+|   +---Fleet
+|   |       FleetBattery.cs
+|   |       FleetBatteryInstallation.cs
+|   |       FleetBatteryState.cs
+|   |       FleetChargeSession.cs
+|   |       FleetPositionLatest.cs
+|   |       FleetUsageInterval.cs
+|   |       FleetVehicle.cs
+|   |       FleetVehicleModel.cs
+|   |       FleetVehicleState.cs
+|   |       
+|   +---Identity
+|   |       PlatformPhoneNumber.cs
+|   |       PlatformUser.cs
+|   |       PlatformUserAccountRecoveryCase.cs
+|   |       PlatformUserAccountRecoveryEvent.cs
+|   |       PlatformUserAgeProfile.cs
+|   |       PlatformUserEmail.cs
+|   |       PlatformUserGuardianConsent.cs
+|   |       PlatformUserGuardianRelationship.cs
+|   |       PlatformUserIdentity.cs
+|   |       PlatformUserMfaMethod.cs
+|   |       PlatformUserOnboarding.cs
+|   |       PlatformUserOnboardingEvent.cs
+|   |       PlatformUserPhone.cs
+|   |       PlatformUserReferralAttribution.cs
+|   |       PlatformUserReferralCode.cs
+|   |       PlatformUserReferralProgram.cs
+|   |       SecurityDbScriptActor.cs
+|   |       SecurityPrincipal.cs
+|   |       
+|   +---Legacy
+|   |       LegacyCompany.cs
+|   |       LegacyComponent.cs
+|   |       LegacyInvoice.cs
+|   |       LegacyOrder.cs
+|   |       LegacyPerson.cs
+|   |       LegacySysrole.cs
+|   |       LegacySystable.cs
+|   |       LegacyUser.cs
+|   |       LegacyUserMapping.cs
+|   |       
+|   +---Manufacturing
+|   |       Bom.cs
+|   |       BomItem.cs
+|   |       MaterialConsumption.cs
+|   |       OutputUnit.cs
+|   |       Routing.cs
+|   |       RoutingOperation.cs
+|   |       WorkOrder.cs
+|   |       WorkOrderEvent.cs
+|   |       WorkOrderOperation.cs
+|   |       
+|   +---Objects
+|   |   |   ObjectIdentity.cs
+|   |   |   ObjectTable.cs
+|   |   |   ObjectType.cs
+|   |   |   
+|   |   \---Dynamic
+|   |           ObjectAttributeValue.cs
+|   |           ObjectBlobValue.cs
+|   |           ObjectDateTimeValue.cs
+|   |           ObjectDateValue.cs
+|   |           ObjectDoubleValue.cs
+|   |           ObjectFile.cs
+|   |           ObjectGenericValue.cs
+|   |           ObjectGeoPose.cs
+|   |           ObjectIntegerValue.cs
+|   |           ObjectLocation.cs
+|   |           ObjectNumber.cs
+|   |           ObjectNumberClass.cs
+|   |           ObjectPrice.cs
+|   |           ObjectQuantity.cs
+|   |           ObjectReference.cs
+|   |           ObjectStringValue.cs
+|   |           ObjectTimeValue.cs
+|   |           
+|   +---Procurement
+|   |       PurchaseOrder.cs
+|   |       PurchaseOrderLine.cs
+|   |       
+|   +---Reference
+|   |   |   Country.cs
+|   |   |   CountryRegion.cs
+|   |   |   CountryRegionTranslation.cs
+|   |   |   CountryTranslation.cs
+|   |   |   Currency.cs
+|   |   |   Language.cs
+|   |   |   
+|   |   \---Units
+|   |           UnitOfMeasure.cs
+|   |           UnitOfMeasureClass.cs
+|   |           UnitOfMeasureCollection.cs
+|   |           UnitOfMeasureRelation.cs
+|   |           
+|   +---Support
+|   |       SupportAccessGrant.cs
+|   |       SupportAccessScope.cs
+|   |       
+|   +---System
+|   |       DatabaseMigration.cs
+|   |       SystemSetting.cs
+|   |       SystemVersion.cs
+|   |       
+|   +---Transport
+|   |       TransportCargoLine.cs
+|   |       TransportEvent.cs
+|   |       TransportMission.cs
+|   |       TransportMissionStop.cs
+|   |       TransportVehicleAssignment.cs
+|   |       
+|   +---Warehouse
+|   |       GoodsReceipt.cs
+|   |       GoodsReceiptLine.cs
+|   |       GoodsReceiptLineOrderAllocation.cs
+|   |       HandlingUnit.cs
+|   |       StockMovement.cs
+|   |       StorageLocation.cs
+|   |       Warehouse.cs
+|   |       
+|   \---Workspaces
+|           Workspace.cs
+|           WorkspaceAdministrator.cs
+|           WorkspaceInvitation.cs
+|           WorkspaceMembership.cs
+|           WorkspaceMembershipRole.cs
+|           WorkspacePermission.cs
+|           WorkspaceRole.cs
+|           WorkspaceRolePermission.cs
+|           
++---obj
+|   |   Kt.Data.csproj.nuget.dgspec.json
+|   |   Kt.Data.csproj.nuget.g.props
+|   |   Kt.Data.csproj.nuget.g.targets
+|   |   project.assets.json
+|   |   project.nuget.cache
+|   |   
+|   \---Debug
+|       +---net10.0
+|       |   |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+|       |   |   Kt.Data.AssemblyInfo.cs
+|       |   |   Kt.Data.AssemblyInfoInputs.cache
+|       |   |   Kt.Data.assets.cache
+|       |   |   Kt.Data.csproj.AssemblyReference.cache
+|       |   |   Kt.Data.csproj.CoreCompileInputs.cache
+|       |   |   Kt.Data.csproj.FileListAbsolute.txt
+|       |   |   Kt.Data.csproj.Up2Date
+|       |   |   Kt.Data.dll
+|       |   |   Kt.Data.GeneratedMSBuildEditorConfig.editorconfig
+|       |   |   Kt.Data.GlobalUsings.g.cs
+|       |   |   Kt.Data.pdb
+|       |   |   
+|       |   +---ref
+|       |   |       Kt.Data.dll
+|       |   |       
+|       |   \---refint
+|       |           Kt.Data.dll
+|       |           
+|       \---net8.0
+|           |   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+|           |   Kt.Data.AssemblyInfo.cs
+|           |   Kt.Data.AssemblyInfoInputs.cache
+|           |   Kt.Data.assets.cache
+|           |   Kt.Data.csproj.AssemblyReference.cache
+|           |   Kt.Data.GeneratedMSBuildEditorConfig.editorconfig
+|           |   Kt.Data.GlobalUsings.g.cs
+|           |   
+|           +---ref
+|           \---refint
++---Objects
+|       KtObjectTable.cs
+|       
++---Queries
+|   +---Finance
+|   |       KtInvoiceCreated.cs
+|   |       KtInvoiceHeader.cs
+|   |       KtInvoiceLine.cs
+|   |       KtPartySnapshot.cs
+|   |       
+|   +---Identity
+|   |       KtUserProfile.cs
+|   |       
+|   +---Objects
+|   |       KtObjectIdentity.cs
+|   |       KtObjectPage.cs
+|   |       KtObjectRecord.cs
+|   |       
+|   \---Workspaces
+|           KtWorkspaceSummary.cs
+|           
++---Repositories
+|       KtIdentityRepository.cs
+|       KtInvoiceRepository.cs
+|       KtObjectRepository.cs
+|       KtWorkspaceRepository.cs
+|       
+\---tools
+        check_schema_mappings.py
+        

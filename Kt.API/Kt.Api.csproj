@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <PublishAot>true</PublishAot>
+    <Copyright>Katrix.AI</Copyright>
+    <PackageProjectUrl>https://plo.kt.live</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kt.Api.Abstractions\Kt.Api.Abstractions.csproj" />
+    <ProjectReference Include="..\Kt.Authentication\Kt.Authentication.csproj" />
+  </ItemGroup>
+  
+</Project>

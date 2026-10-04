@@ -1,0 +1,57 @@
+Folder PATH listing for volume Data
+Volume serial number is 08E4-072B
+D:\SOFTWARE-LINUX\KT.PLO\KT.DATA
++---Authorization
+|   \---Objects
++---bin
+|   \---Debug
+|       +---net10.0
+|       \---net8.0
++---Commands
+|   +---Finance
+|   \---Objects
++---Configuration
+|   \---Finance
++---Context
+|   \---Finance
++---docs
++---Exceptions
++---Models
+|   +---Accounting
+|   +---Audit
+|   +---Companies
+|   +---Compatibility
+|   +---Core
+|   +---Customs
+|   +---Devices
+|   +---Finance
+|   +---Fleet
+|   +---Identity
+|   +---Legacy
+|   +---Manufacturing
+|   +---Objects
+|   |   \---Dynamic
+|   +---Procurement
+|   +---Reference
+|   |   \---Units
+|   +---Support
+|   +---System
+|   +---Transport
+|   +---Warehouse
+|   \---Workspaces
++---obj
+|   \---Debug
+|       +---net10.0
+|       |   +---ref
+|       |   \---refint
+|       \---net8.0
+|           +---ref
+|           \---refint
++---Objects
++---Queries
+|   +---Finance
+|   +---Identity
+|   +---Objects
+|   \---Workspaces
++---Repositories
+\---tools
