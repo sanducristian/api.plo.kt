@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 
 namespace Kt.Data.Authorization.Objects;
 
+
+/// <summary>
+/// Defines an interface for object access policies, allowing for the determination of read and property creation permissions based on the session, table name, object ID, and role ID.
+/// </summary>
 public interface IKtObjectAccessPolicy {
 
     /// <summary>

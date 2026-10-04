@@ -67,5 +67,10 @@ public sealed class KtDb : IAsyncDisposable {
         return result;
     }
 
+
+    /// <summary>
+    /// Disposes the underlying data source asynchronously.
+    /// </summary>
+    /// <returns>A ValueTask representing the asynchronous dispose operation.</returns>
     public ValueTask DisposeAsync() => _source.DisposeAsync();
 }

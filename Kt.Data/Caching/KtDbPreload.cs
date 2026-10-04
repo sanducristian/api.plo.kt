@@ -8,6 +8,17 @@ using MySqlConnector;
 
 namespace Kt.Data.Caching;
 
+
+/// <summary>
+/// Immutable record representing information about a database table.
+/// </summary>
+/// <param name="Id">The unique identifier of the table.</param>
+/// <param name="TableName">The name of the table.</param>
+/// <param name="IndexField">The name of the index field.</param>
+/// <param name="IndexName">The name of the index.</param>
+/// <param name="TypeId">The type identifier.</param>
+/// <param name="RefNil">Indicates whether the reference is nil.</param>
+/// <param name="UsesGlobalObjectId">Indicates whether the table uses a global object ID.</param>
 public sealed record KtTableInfo(
     ulong Id,
     string TableName,
@@ -18,6 +29,16 @@ public sealed record KtTableInfo(
     bool UsesGlobalObjectId);
 
 
+
+
+/// <summary>
+/// Immutable record representing information about a type in the database.
+/// </summary>
+/// <param name="Id">The unique identifier of the type.</param>
+/// <param name="ParentId">The unique identifier of the parent type.</param>
+/// <param name="Guid">The globally unique identifier of the type.</param>
+/// <param name="Name">The name of the type.</param>
+/// <param name="Singleton">Indicates whether the type is a singleton.</param>
 public sealed record KtTypeInfo(
     ulong Id,
     ulong ParentId,
@@ -26,6 +47,19 @@ public sealed record KtTypeInfo(
     bool Singleton);
 
 
+
+/// <summary>
+/// Immutable record representing information about a currency in the database.
+/// </summary>
+/// <param name="Id">The unique identifier of the currency.</param>
+/// <param name="Name">The name of the currency.</param>
+/// <param name="ShortName">The short name of the currency.</param>
+/// <param name="IsoCode">The ISO code of the currency.</param>
+/// <param name="NumericCode">The numeric code of the currency.</param>
+/// <param name="Symbol">The symbol of the currency.</param>
+/// <param name="MinorUnit">The minor unit of the currency.</param>
+/// <param name="IsActive">Indicates whether the currency is active.</param>
+/// <param name="RowVersion">The row version of the currency.</param>
 public sealed record KtCurrencyInfo(
     ulong Id,
     string Name,
@@ -38,6 +72,18 @@ public sealed record KtCurrencyInfo(
     ulong RowVersion);
 
 
+
+/// <summary>
+/// Immutable record representing information about a language in the database.
+/// </summary>
+/// <param name="Id">The unique identifier of the language.</param>
+/// <param name="Name">The name of the language.</param>
+/// <param name="NativeName">The native name of the language.</param>
+/// <param name="IsoCode2">The ISO 639-1 two-letter code of the language.</param>
+/// <param name="IsoCode3">The ISO 639-2 three-letter code of the language.</param>
+/// <param name="LocaleCode">The locale code of the language.</param>
+/// <param name="LegacyCode">The legacy code of the language.</param>
+/// <param name="Description">The description of the language.</param>
 public sealed record KtLanguageInfo(
     ulong Id,
     string Name,
@@ -49,6 +95,16 @@ public sealed record KtLanguageInfo(
     string? Description);
 
 
+
+/// <summary>
+/// Immutable record representing information about a country in the database.
+/// </summary>
+/// <param name="Id">The unique identifier of the country.</param>
+/// <param name="IsoAlpha2">The ISO 3166-1 alpha-2 code of the country.</param>
+/// <param name="IsoAlpha3">The ISO 3166-1 alpha-3 code of the country.</param>
+/// <param name="IsoNumeric">The ISO 3166-1 numeric code of the country.</param>
+/// <param name="Name">The name of the country.</param>
+/// <param name="IsActive">Indicates whether the country is active.</param>
 public sealed record KtCountryInfo(
     ulong Id,
     string IsoAlpha2,
@@ -82,6 +138,12 @@ public sealed class KtDbPreload {
 
     private KtDbSnapshot? _current;
 
+
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KtDbPreload"/> class with the specified database connection string.
+    /// </summary>
+    /// <param name="connectionString">The connection string to the database.</param>
     public KtDbPreload(string connectionString) {
         if (string.IsNullOrWhiteSpace(connectionString))
             throw new ArgumentException("A database connection string is required.", nameof(connectionString));
@@ -90,8 +152,15 @@ public sealed class KtDbPreload {
     }
 
 
+    /// <summary>
+    /// Gets a value indicating whether the catalogues have been loaded.
+    /// </summary>
     public bool IsLoaded => Volatile.Read(ref _current) is not null;
 
+
+    /// <summary>
+    ///     Gets the current snapshot of the loaded catalogues.
+    /// </summary>
     public KtDbSnapshot Current => Volatile.Read(ref _current)
         ?? throw new InvalidOperationException("Database catalogues are not loaded. Call LoadAsync first.");
 

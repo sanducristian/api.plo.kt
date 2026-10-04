@@ -1,6 +1,8 @@
 namespace Kt.Data.Commands.Objects;
 
 
-// These shapes follow physical SQL types. Floating point is preserved, not silently made exact.
+/// <summary>
+/// Represents a dynamic value for an object.
+/// </summary>
 public abstract record KtObjectDynamicValue;
 

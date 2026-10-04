@@ -5,7 +5,23 @@ using Kt.Api.Authentication;
 
 namespace Kt.Api.Session;
 
+
+
+/// <summary>
+/// Provides extension methods for creating and managing sessions in an <see cref="IKtSessionStore"/>.
+/// </summary>
 public static class KtSessionStoreExtensions {
+    /// <summary>
+    /// Creates a new session for the specified user and stores it in the session store.
+    /// </summary>
+    /// <param name="sessions">The session store to add the new session to.</param>
+    /// <param name="userId">The unique identifier of the user.</param>
+    /// <param name="securityVersion">The security version of the session.</param>
+    /// <param name="application">The application associated with the session.</param>
+    /// <param name="companyId">The optional company identifier associated with the session.</param>
+    /// <param name="client">The client associated with the session.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A <see cref="KtCreatedSession"/> representing the newly created session.</returns>
     public static async Task<KtCreatedSession> CreateSessionAsync(
         this IKtSessionStore sessions,
         string userId,

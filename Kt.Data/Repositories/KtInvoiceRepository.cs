@@ -12,9 +12,34 @@ namespace Kt.Data.Repositories;
 
 /// <summary>Scoped invoice reads and purchase-draft writes. No posting, payment or arbitrary status changes.</summary>
 public sealed class KtInvoiceRepository {
+
+
+    /// <summary>
+    /// The database context used for accessing the underlying database.
+    /// </summary>
     private readonly KtDb _db;
+
+
+    /// <summary>
+    /// The repository for managing workspaces, used for permission checks and workspace-related operations.
+    /// </summary>
     private readonly KtWorkspaceRepository _workspaces;
+
+
+    /// <summary>
+    /// The permissions configuration for invoice operations, used to enforce access control.
+    /// </summary>
     private readonly KtInvoicePermissions _permissions;
+
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KtInvoiceRepository"/> class with the specified database context, workspace repository, and invoice permissions.
+    /// </summary>
+    /// <param name="db">The database context used for accessing the underlying database.</param>
+    /// <param name="workspaces">The repository for managing workspaces, used for permission checks and workspace-related operations.</param>
+    /// <param name="permissions">The permissions configuration for invoice operations, used to enforce access control.</param>
+    /// <exception cref="ArgumentNullException">Thrown if any of the parameters are null.</exception>
+    /// <exception cref="ArgumentException">Thrown if any of the permission codes are invalid.</exception>
     public KtInvoiceRepository(KtDb db, KtWorkspaceRepository workspaces, KtInvoicePermissions permissions) {
         _db = db ?? throw new ArgumentNullException(nameof(db));
         _workspaces = workspaces ?? throw new ArgumentNullException(nameof(workspaces));
@@ -24,7 +49,18 @@ public sealed class KtInvoiceRepository {
                 throw new ArgumentException("Configure actual ASCII permission codes from the database.");
     }
 
-    // Scope uses the verified primary-legal-entity relationship only, not a guessed company ID join.
+
+
+    /// <summary>
+    /// Requires that the specified session has the necessary permissions for the given invoice scope and permission code.
+    /// </summary>
+    /// <param name="session">The database session to use for the operation.</param>
+    /// <param name="scope">The invoice scope containing workspace and legal entity information.</param>
+    /// <param name="permission">The permission code to check.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>The party ID of the legal entity if the permissions are satisfied.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown if the scope contains invalid workspace or legal entity IDs.</exception>
+    /// <exception cref="UnauthorizedAccessException">Thrown if the session does not have the required permissions.</exception>
     private async Task<ulong> RequireScopeAsync(KtDbSession session, KtInvoiceScope scope, string permission,
         CancellationToken ct) {
         if (scope.WorkspaceId == 0 || scope.LegalEntityId == 0) throw new ArgumentOutOfRangeException(nameof(scope));
@@ -54,6 +90,16 @@ public sealed class KtInvoiceRepository {
         i.workflow_status, i.posting_status, i.settlement_status, i.matching_status, i.notes, i.row_version
         """;
 
+
+
+    /// <summary>
+    /// Retrieves the invoice header for the specified invoice ID within the given scope, if the session has the necessary read permissions.
+    /// </summary>
+    /// <param name="session">The database session to use for the operation.</param>
+    /// <param name="scope">The invoice scope containing workspace and legal entity information.</param>
+    /// <param name="invoiceId">The ID of the invoice to retrieve.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>The invoice header if found; otherwise, null.</returns>
     public async Task<KtInvoiceHeader?> GetAsync(KtDbSession session, KtInvoiceScope scope, ulong invoiceId,
         CancellationToken cancellationToken = default) {
         await RequireScopeAsync(session, scope, _permissions.Read, cancellationToken);
@@ -64,6 +110,17 @@ public sealed class KtInvoiceRepository {
         return await reader.ReadAsync(cancellationToken) ? ReadHeader(reader) : null;
     }
 
+
+
+    /// <summary>
+    /// Lists invoice headers within the specified scope, starting after a given invoice ID, with a limit on the number of results. Requires read permissions for the session.
+    /// </summary>
+    /// <param name="session">The database session to use for the operation.</param>
+    /// <param name="scope">The invoice scope containing workspace and legal entity information.</param>
+    /// <param name="afterId">The ID of the invoice after which to start listing.</param>
+    /// <param name="limit">The maximum number of invoice headers to return.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>A read-only list of invoice headers.</returns>
     public async Task<IReadOnlyList<KtInvoiceHeader>> ListAsync(KtDbSession session, KtInvoiceScope scope,
         ulong afterId = 0, int limit = 100, CancellationToken cancellationToken = default) {
         PageLimit(limit);
@@ -78,6 +135,18 @@ public sealed class KtInvoiceRepository {
         return result.AsReadOnly();
     }
 
+
+
+    /// <summary>
+    /// Retrieves the invoice lines for a specific invoice ID within the given scope, starting after a specified line number, with a limit on the number of results. Requires read permissions for the session.
+    /// </summary>
+    /// <param name="session">The database session to use for the operation.</param>
+    /// <param name="scope">The invoice scope containing workspace and legal entity information.</param>
+    /// <param name="invoiceId">The ID of the invoice for which to retrieve lines.</param>
+    /// <param name="afterLineNumber">The line number after which to start listing.</param>
+    /// <param name="limit">The maximum number of invoice lines to return.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>A read-only list of invoice lines.</returns>
     public async Task<IReadOnlyList<KtInvoiceLine>> GetLinesAsync(KtDbSession session, KtInvoiceScope scope,
         ulong invoiceId, uint afterLineNumber = 0, int limit = 100, CancellationToken cancellationToken = default) {
         PageLimit(limit);
@@ -102,9 +171,16 @@ public sealed class KtInvoiceRepository {
         return result.AsReadOnly();
     }
 
+
+
     /// <summary>Creates a PURCHASE_INVOICE draft, its lines, initial status event and audit event atomically.</summary>
-    public Task<KtInvoiceCreated> CreatePurchaseDraftAsync(ulong authenticatedPrincipalId, KtInvoiceScope scope,
-        KtPurchaseDraft draft, Guid correlationId, CancellationToken cancellationToken = default) {
+    /// <param name="authenticatedPrincipalId">The ID of the authenticated principal creating the draft.</param>
+    /// <param name="scope">The invoice scope containing workspace and legal entity information.</param>
+    /// <param name="draft">The purchase draft to create.</param>
+    /// <param name="correlationId">A correlation ID for tracking the operation.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>The created invoice.</returns> 
+    public Task<KtInvoiceCreated> CreatePurchaseDraftAsync(ulong authenticatedPrincipalId, KtInvoiceScope scope, KtPurchaseDraft draft, Guid correlationId, CancellationToken cancellationToken = default) {
         ArgumentNullException.ThrowIfNull(draft);
         // Freeze the mutable list before validation or any await.
         draft = draft with { Lines = draft.Lines?.ToArray() ?? throw new ArgumentException("Lines are required.") };
@@ -188,6 +264,8 @@ public sealed class KtInvoiceRepository {
         }, cancellationToken);
     }
 
+
+
     /// <summary>Optimistic update restricted to unposted DRAFT rows. Returns the incremented version.</summary>
     public Task<ulong> UpdateDraftNotesAsync(ulong authenticatedPrincipalId, KtInvoiceScope scope, ulong invoiceId,
         ulong expectedRowVersion, string? notes, Guid correlationId, CancellationToken cancellationToken = default) {
@@ -213,6 +291,17 @@ public sealed class KtInvoiceRepository {
         }, cancellationToken);
     }
 
+
+
+    /// <summary>
+    /// Inserts a line item into the finance_invoice_line table for a specific invoice. This method calculates the net amount based on the line's quantity, unit price, discount, and charge amounts, and then executes an SQL command to insert the line into the database.
+    /// </summary>
+    /// <param name="session">The database session to use for the operation.</param>
+    /// <param name="invoiceId">The ID of the invoice to which the line belongs.</param>
+    /// <param name="number">The line number.</param>
+    /// <param name="line">The draft line item to insert.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     private static async Task InsertLineAsync(KtDbSession session, ulong invoiceId, uint number, KtDraftLine line, CancellationToken ct) {
         var net = checked(line.Quantity * line.UnitPrice - line.DiscountAmount + line.ChargeAmount);
         using var command = session.CreateCommand("""
@@ -249,19 +338,50 @@ public sealed class KtInvoiceRepository {
         await command.ExecuteNonQueryAsync(ct);
     }
 
+
+    /// <summary>
+    /// Adds the parameters for a party snapshot to the given MySqlCommand, using the specified prefix for parameter names. This method is used to insert or update party information in the database.
+    /// </summary>
+    /// <param name="command">The MySqlCommand to which the parameters will be added.</param>
+    /// <param name="prefix">The prefix to use for parameter names.</param>
+    /// <param name="party">The party snapshot containing the data to add as parameters.</param>
     private static void AddParty(MySqlCommand command, string prefix, KtPartySnapshot party) {
         command.Parameters.Add("@" + prefix, MySqlDbType.UInt64).Value = party.PartyId;
         command.Parameters.Add("@" + prefix + "Name", MySqlDbType.VarChar).Value = party.Name;
         command.Parameters.Add("@" + prefix + "Tax", MySqlDbType.VarChar).Value = (object?)party.TaxId ?? DBNull.Value;
         command.Parameters.Add("@" + prefix + "Address", MySqlDbType.JSON).Value = (object?)party.AddressJson ?? DBNull.Value;
     }
+
+
+    /// <summary>
+    /// Adds a decimal parameter to the given MySqlCommand with the specified name and value. The parameter is configured with a precision of 20 and a scale of 6, suitable for storing monetary values.
+    /// </summary>
+    /// <param name="command">The MySqlCommand to which the parameter will be added.</param>
+    /// <param name="name">The name of the parameter.</param>
+    /// <param name="value">The decimal value to assign to the parameter.</param>
     private static void AddDecimal(MySqlCommand command, string name, decimal value) {
         var parameter = command.Parameters.Add(name, MySqlDbType.Decimal);
         parameter.Precision = 20;
         parameter.Scale = 6;
         parameter.Value = value;
     }
+
+
+    /// <summary>
+    /// Retrieves a nullable string from the MySqlDataReader at the specified index. If the value is DBNull, it returns null; otherwise, it returns the string value.
+    /// </summary>
+    /// <param name="r">The MySqlDataReader from which to retrieve the value.</param>
+    /// <param name="index">The zero-based column ordinal.</param>
+    /// <returns>The string value if not DBNull; otherwise, null.</returns>
     private static string? NullableText(MySqlDataReader r, int index) => r.IsDBNull(index) ? null : r.GetString(index);
+
+
+    /// <summary>
+    /// Reads a party snapshot from the MySqlDataReader starting at the specified index. It constructs a KtPartySnapshot object using the party ID, name, tax ID, and address JSON retrieved from the reader.
+    /// </summary>
+    /// <param name="r">The MySqlDataReader from which to read the party data.</param>
+    /// <param name="i">The zero-based starting index of the party data columns.</param>
+    /// <returns>A KtPartySnapshot object populated with the data from the reader.</returns>
     private static KtPartySnapshot ReadParty(MySqlDataReader r, int i) => new(r.GetUInt64(i), r.GetString(i + 1), NullableText(r, i + 2), NullableText(r, i + 3));
     private static KtInvoiceHeader ReadHeader(MySqlDataReader r) => new(r.GetUInt64(0), r.GetString(1).ToLowerInvariant(),
         r.GetUInt64(2), r.GetString(3), r.GetString(4), r.GetDateOnly(5), r.IsDBNull(6) ? null : r.GetDateOnly(6),

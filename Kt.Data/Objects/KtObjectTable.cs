@@ -2,8 +2,26 @@ namespace Kt.Data.Objects;
 
 /// <summary>Trusted server configuration: never build a projection from a client's column list.</summary>
 public sealed class KtObjectTable {
+
+
+    /// <summary>
+    /// Gets the name of the object table.
+    /// </summary>
     public string Name { get; }
+
+
+    /// <summary>
+    /// Gets the list of columns in the object table.
+    /// </summary>
     public IReadOnlyList<string> Columns { get; }
+
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KtObjectTable"/> class with the specified name and columns.
+    /// </summary>
+    /// <param name="name">The name of the object table.</param>
+    /// <param name="columns">The columns of the object table.</param>
+    /// <exception cref="ArgumentException">Thrown when the name or columns are invalid.</exception>
     public KtObjectTable(string name, params string[] columns) {
         Validate(name);
         if (columns.Length == 0 || !columns.Contains("id", StringComparer.Ordinal))
@@ -14,12 +32,24 @@ public sealed class KtObjectTable {
         Name = name;
         Columns = Array.AsReadOnly((string[])columns.Clone());
     }
+
+
+
+    /// <summary>
+    /// Validates the specified name to ensure it is a valid SQL identifier.
+    /// </summary>
+    /// <param name="name">The name to validate.</param>
+    /// <exception cref="ArgumentException">Thrown when the name is not a valid SQL identifier.</exception>
     private static void Validate(string name) {
         if (string.IsNullOrEmpty(name) || name.Length > 196 ||
             !name.All(c => c is >= 'a' and <= 'z' or >= 'A' and <= 'Z' or >= '0' and <= '9' or '_'))
             throw new ArgumentException("Invalid SQL identifier.");
     }
+
+
+
     /// <summary>Reviewed projections from the September 26 schema. Include only needed static tables.</summary>
+    /// <returns>A read-only list of known object tables.</returns>
     public static IReadOnlyList<KtObjectTable> KnownTables { get; } = Array.AsReadOnly(new KtObjectTable[]
     {
         new("obj_dyn", "id", "masterId", "slaveId", "typeId"),

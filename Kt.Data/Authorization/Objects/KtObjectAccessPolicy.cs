@@ -9,13 +9,25 @@ using System.Threading.Tasks;
 
 namespace Kt.Data.Authorization.Objects;
 
+
+/// <summary>
+/// Represents an access policy for objects in the KT system, defining permissions for reading and creating properties based on roles and value tables.
+/// </summary>
 public sealed class KtObjectAccessPolicy : IKtObjectAccessPolicy {
     private readonly KtWorkspaceRepository _workspaces;
     private readonly string _applicationEntry;
     private readonly string _locationRead;
 
+
+    /// <summary>
+    /// Gets the collection of location property rules, indexed by role ID and value table name.
+    /// </summary>
     private readonly Dictionary<(ulong RoleId, string ValueTable), KtLocationPropertyRule> _rules;
 
+
+    /// <summary>
+    /// Gets the set of scalar tables that are explicitly supported for property access control.
+    /// </summary>
     private static readonly HashSet<string> ScalarTables =
         new(StringComparer.Ordinal) {
             "obj_dyn_val_int",

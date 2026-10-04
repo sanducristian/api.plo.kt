@@ -4,6 +4,10 @@ using System;
 using System.Net;
 using System.Net.NetworkInformation;
 
+
+/// <summary>
+/// Provides network-related information and utilities for the KT system.
+/// </summary>
 public static class KtSystemNetworkInfo {
 
 

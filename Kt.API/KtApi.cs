@@ -9,10 +9,25 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Kt.Api;
 
+
+
+/// <summary>
+/// Provides extension methods for registering and configuring the KT API endpoints in an ASP.NET Core application.
+/// </summary>
 public static class KtApi {
+
+    /// <summary>
+    /// The base path for the KT API endpoints.
+    /// </summary>
     public const string BasePath = "/api/v1";
 
 
+    /// <summary>
+    /// Registers a module that implements the IKtApiModule interface with the service collection.
+    /// </summary>
+    /// <typeparam name="TModule">The type of the module to register.</typeparam>
+    /// <param name="services">The service collection to add the module to.</param>
+    /// <returns>The updated service collection.</returns>
     public static IServiceCollection AddKtApiModule<TModule>(this IServiceCollection services)
         where TModule : class, IKtApiModule {
         services.AddSingleton<IKtApiModule, TModule>();

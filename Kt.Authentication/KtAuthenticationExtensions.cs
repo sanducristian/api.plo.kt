@@ -5,6 +5,10 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Kt.Authentication;
 
+
+/// <summary>
+/// Provides extension methods for registering and configuring KT session authentication in an ASP.NET Core application.
+/// </summary>
 public static class KtAuthenticationExtensions {
 
 
@@ -20,6 +24,8 @@ public static class KtAuthenticationExtensions {
         services.TryAddSingleton<TimeProvider>(TimeProvider.System);
         services.AddScoped<IKtCurrentUser, KtCurrentUser>();
 
+
+        // Configure authentication to use the KT session scheme. This sets up the default authentication, challenge, and forbid schemes to use the KT session handler.
         services.AddAuthentication(options => {
             options.DefaultAuthenticateScheme = KtAuthenticationDefaults.Scheme;
             options.DefaultChallengeScheme = KtAuthenticationDefaults.Scheme;
@@ -27,6 +33,8 @@ public static class KtAuthenticationExtensions {
         }).AddScheme<AuthenticationSchemeOptions, KtSessionAuthenticationHandler>(
             KtAuthenticationDefaults.Scheme, _ => { });
 
+
+        // Set up a policy that requires authentication using the KT session scheme. This policy can be applied to controllers or actions to enforce authentication.
         services.AddAuthorization(options => {
             options.AddPolicy(KtAuthenticationDefaults.Policy, policy => {
                 policy.AddAuthenticationSchemes(KtAuthenticationDefaults.Scheme);

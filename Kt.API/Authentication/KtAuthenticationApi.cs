@@ -258,17 +258,56 @@ public sealed class KtSessionHandler : AuthenticationHandler<AuthenticationSchem
 /// immediate revocation and unique hashes across all API instances.
 /// </summary>
 public interface IKtSessionStore {
+    /// <summary>
+    /// Stores a session associated with a token hash. The session will expire at the specified time.
+    /// </summary>
+    /// <param name="tokenHash">The hash of the token associated with the session.</param>
+    /// <param name="session">The session to store.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     Task PutAsync(string tokenHash, KtSession session, CancellationToken cancellationToken);
+
+
+    /// <summary>
+    /// Retrieves a session associated with a token hash.
+    /// </summary>
+    /// <param name="tokenHash">The hash of the token associated with the session.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the session if found; otherwise, null.</returns>
     Task<KtSession?> GetAsync(string tokenHash, CancellationToken cancellationToken);
+
+
+    /// <summary>
+    /// Removes a session associated with a token hash.
+    /// </summary>
+    /// <param name="tokenHash">The hash of the token associated with the session.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     Task RemoveAsync(string tokenHash, CancellationToken cancellationToken);
 }
+
+
+
 
 /// <summary>
 /// Bounded single-process starter store. Eviction may require users to log in again.
 /// Register a replacement singleton IKtSessionStore for shared/durable sessions.
 /// </summary>
 public sealed class KtMemorySessionStore : IKtSessionStore, IDisposable {
+
+    /// <summary>
+    /// A memory cache to store sessions with a size limit. Each session is stored with an absolute expiration time and a size of 1.
+    /// </summary>
     private readonly MemoryCache _cache = new(new MemoryCacheOptions { SizeLimit = 10_000 });
+
+
+    /// <summary>
+    /// Stores a session associated with a token hash in the memory cache. The session will expire at the specified time.
+    /// </summary>
+    /// <param name="tokenHash">The hash of the token associated with the session.</param>
+    /// <param name="session">The session to store.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task PutAsync(string tokenHash, KtSession session, CancellationToken cancellationToken) {
         cancellationToken.ThrowIfCancellationRequested();
         _cache.Set(tokenHash, session, new MemoryCacheEntryOptions {
@@ -277,15 +316,36 @@ public sealed class KtMemorySessionStore : IKtSessionStore, IDisposable {
         });
         return Task.CompletedTask;
     }
+
+
+    /// <summary>
+    /// Retrieves a session associated with a token hash from the memory cache.
+    /// </summary>
+    /// <param name="tokenHash">The hash of the token associated with the session.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the session if found; otherwise, null.</returns>
     public Task<KtSession?> GetAsync(string tokenHash, CancellationToken cancellationToken) {
         cancellationToken.ThrowIfCancellationRequested();
         return Task.FromResult(_cache.Get<KtSession>(tokenHash));
     }
+
+
+    /// <summary>
+    /// Removes a session associated with a token hash from the memory cache.
+    /// </summary>
+    /// <param name="tokenHash">The hash of the token associated with the session.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task RemoveAsync(string tokenHash, CancellationToken cancellationToken) {
         cancellationToken.ThrowIfCancellationRequested();
         _cache.Remove(tokenHash);
         return Task.CompletedTask;
     }
+
+
+    /// <summary>
+    /// Disposes the memory cache.
+    /// </summary>  
     public void Dispose() => _cache.Dispose();
 }
 
@@ -297,22 +357,60 @@ public sealed record KtLoginRequest(
     string? CompanyId = null, string? Otp = null);
 
 
+/// <summary>
+/// Represents a verified identity with a user ID and security version.
+/// </summary>
+/// <param name="UserId">The ID of the user.</param>
+/// <param name="SecurityVersion">The security version of the user.</param>
 public sealed record KtVerifiedIdentity(string UserId, string SecurityVersion);
 
 
+/// <summary>
+///     Represents the access information for a user, including their ID, display name, email, security version, and permissions.
+/// </summary>
+/// <param name="UserId">The ID of the user.</param>
+/// <param name="DisplayName">The display name of the user.</param>
+/// <param name="Email">The email address of the user.</param>
+/// <param name="SecurityVersion">The security version of the user.</param>
+/// <param name="Permissions">The permissions assigned to the user.</param>
 public sealed record KtAccess(
     string UserId, string DisplayName, string? Email,
     string SecurityVersion, string[] Permissions);
 
 
+
+/// <summary>
+/// Represents a session associated with a user, including the user ID, security version, application, company ID, client, and expiration time. 
+/// </summary>
+/// <param name="UserId">The ID of the user.</param>
+/// <param name="SecurityVersion">The security version of the user.</param>
+/// <param name="Application">The application associated with the session.</param>
+/// <param name="CompanyId">The ID of the company associated with the session.</param>
+/// <param name="Client">The client associated with the session.</param>
+/// <param name="ExpiresAt">The expiration time of the session.</param>
 public sealed record KtSession(
     string UserId, string SecurityVersion, string Application,
     string? CompanyId, string Client, DateTimeOffset ExpiresAt);
 
 
+/// <summary>
+/// Represents a validated session, including the token hash, session information, and user access information.
+/// </summary>
+/// <param name="TokenHash">The hash of the token.</param>
+/// <param name="Session">The session information.</param>
+/// <param name="User">The user access information.</param>
 internal sealed record KtValidatedSession(string TokenHash, KtSession Session, KtAccess User);
 
 
+/// <summary>
+/// Represents the profile information of a user, including their user ID, display name, email, application, company ID, and permissions.
+/// </summary>
+/// <param name="UserId">The ID of the user.</param>
+/// <param name="DisplayName">The display name of the user.</param>
+/// <param name="Email">The email address of the user.</param>
+/// <param name="Application">The application associated with the user.</param>
+/// <param name="CompanyId">The ID of the company associated with the user.</param>
+/// <param name="Permissions">The permissions assigned to the user.</param>
 public sealed record KtUserProfile(
     string UserId, string DisplayName, string? Email,
     string Application, string? CompanyId, string[] Permissions);

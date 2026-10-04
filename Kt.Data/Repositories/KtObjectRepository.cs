@@ -13,6 +13,14 @@ public sealed class KtObjectRepository {
     private readonly KtDb _db;
     private readonly IKtObjectAccessPolicy _access;
     private readonly IReadOnlyDictionary<string, KtObjectTable> _tables;
+
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KtObjectRepository"/> class with the specified database, access policy, and object tables.
+    /// </summary>
+    /// <param name="db">The database instance.</param>
+    /// <param name="access">The object access policy.</param>
+    /// <param name="tables">The collection of object tables.</param>
     public KtObjectRepository(KtDb db, IKtObjectAccessPolicy access, IEnumerable<KtObjectTable> tables) {
         _db = db ?? throw new ArgumentNullException(nameof(db));
         _access = access ?? throw new ArgumentNullException(nameof(access));

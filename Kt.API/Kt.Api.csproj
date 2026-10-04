@@ -8,6 +8,7 @@
     <PublishAot>true</PublishAot>
     <Copyright>Katrix.AI</Copyright>
     <PackageProjectUrl>https://plo.kt.live</PackageProjectUrl>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
